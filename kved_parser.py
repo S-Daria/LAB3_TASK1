@@ -6,13 +6,22 @@ GitHub: https://github.com/S-Daria/LAB3_TASK1.git
 import json
 
 
-def json_decoding(path):
+def json_decoding(path: str) -> dict:
+    """
+    get json file 
+    return dict object with contents of the file
+    """
     with open(path, 'r', encoding='utf-8') as f:
         decoded_kved = json.load(f)
         return decoded_kved
 
 
-def find_data(decoded_kved: dict, input_code_class: str):
+def find_data(decoded_kved: dict, input_code_class: str) -> dict:
+    """
+    get dict file with all data
+    find the required information
+    return dict with needed data
+    """
     sections = len(decoded_kved['sections'][0])
     for sec in range(sections):
         section_name = decoded_kved['sections'][0][sec]['sectionName']
@@ -36,6 +45,11 @@ def find_data(decoded_kved: dict, input_code_class: str):
 
 
 def organize_data(class_name, group_name, division_name, section_name, classes, groups, divisions):
+    """
+    get needed data 
+    organize to dict that is ready to be converted into .json file
+    return the dict
+    """
     data = {
         "name": class_name,
         "type": "class",
@@ -59,16 +73,25 @@ def organize_data(class_name, group_name, division_name, section_name, classes, 
 
 
 def creating_json(data):
+    """
+    get dict with data to be converted into .json
+    makae the .json file with data 
+    return None
+    """
     with open('kved_results.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 
-input_code_class = "01.11"
+# input_code_class = "01.11"
+
+
 def parse_kved(input_code_class: str):
     path = "kved.json"
     decoded_kved = json_decoding(path)
     raw_data = find_data(decoded_kved, input_code_class)
-    data = organize_data(class_name = raw_data['class_name'], group_name = raw_data['group_name'], division_name = raw_data['division_name'], section_name = raw_data['section_name'], classes = raw_data['classes'], groups = raw_data['groups'], divisions = raw_data['divisions'])
+    data = organize_data(class_name=raw_data['class_name'], group_name=raw_data['group_name'], division_name=raw_data['division_name'],
+                         section_name=raw_data['section_name'], classes=raw_data['classes'], groups=raw_data['groups'], divisions=raw_data['divisions'])
     creating_json(data)
 
-parse_kved(input_code_class)
+
+# parse_kved(input_code_class)
